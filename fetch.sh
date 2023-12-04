@@ -53,7 +53,7 @@ package main
 func main() {
   fmt.Printf("Hello World!")
 }
-  EOF
+EOF
 
   cat <<-EOF | tee utils.go
 package main
