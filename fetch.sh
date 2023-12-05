@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TAB_SPACE="$(printf '\t')"
+
 function main {
     local session_file
     local date
@@ -38,7 +40,7 @@ function main {
     # Makefile
     cat <<-EOF | tee Makefile
 solution.out: src/*.go
-  go build -o $< $*
+${TAB_SPACE}go build -o \$@ \$*
 EOF
 
     # go.mod
