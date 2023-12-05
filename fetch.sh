@@ -39,7 +39,7 @@ function main {
 
     # Makefile
     cat <<-EOF | tee Makefile
-solution.out: src/*.go
+a.out: src/*.go
 ${TAB_SPACE}go build -o \$@ \$*
 EOF
 
