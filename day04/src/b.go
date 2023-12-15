@@ -1,7 +1,6 @@
 package main
 
 func getScoreAlt(scratchcards map[int]int, position int, winning_numbers, my_numbers map[int]struct{}) map[int]int {
-
 	score := getScore(winning_numbers, my_numbers)
 	for i := position + 1; i <= position+score; i++ {
 		scratchcards[i] += scratchcards[position]

@@ -40,7 +40,7 @@ function main {
     # Makefile
     cat <<-EOF | tee Makefile
 a.out: src/*.go
-${TAB_SPACE}go build -o \$@ \$*
+${TAB_SPACE}go build -o \$@ \$^
 EOF
 
     # go.mod
@@ -49,49 +49,74 @@ EOF
     # src dir
     mkdir -p src && cd src
 
-    cat <<-EOF | tee main.go
+# ==============[ main ]=================
+
+    cat <<-EOF > main.go
 package main
 
+import "fmt"
+
 func main() {
-  fmt.Printf("Hello World!")
+	lines := readFile("./data/input.sample")
+	fmt.Printf("Part A: %d\n", partA(lines))
+	fmt.Printf("Part B: %d\n", partB(lines))
 }
 EOF
 
-  cat <<-EOF | tee utils.go
+# ==============[ utils ]=================
+
+  cat <<-EOF > utils.go
 package main
 
 import (
-        "bufio"
-        "log"
-        "os"
-        "strings"
+	"bufio"
+	"log"
+	"os"
 )
 
 func readFile(filename string) []string {
-        input_file, err := os.Open(filename)
+	input_file, err := os.Open(filename)
 
-        if err != nil {
-                log.Fatal("Error opening input file!")
-        }
+	if err != nil {
+		log.Fatal("Error opening input file!")
+	}
 
-        defer input_file.Close()
+	defer input_file.Close()
 
-        fileScanner := bufio.NewScanner(input_file)
-        fileScanner.Split(bufio.ScanLines)
+	fileScanner := bufio.NewScanner(input_file)
+	fileScanner.Split(bufio.ScanLines)
 
-        buf := make([]string, 0)
-        for fileScanner.Scan() {
-                buf = append(buf, fileScanner.Text())
-        }
+	buf := make([]string, 0)
+	for fileScanner.Scan() {
+		buf = append(buf, fileScanner.Text())
+	}
 
-        return buf
+	return buf
 }
 EOF
 
-    cat <<-EOF | tee a.go | tee b.go
+# ==============[ a ]=================
+
+    cat <<-EOF > a.go
 package main
 
+func partA(lines []string) int {
+  
+  return 0;
+}
 EOF
+
+# ==============[ b ]=================
+
+  cat <<-EOF > b.go
+package main
+
+func partB(lines []string) int {
+  
+  return 0;
+}
+EOF
+
     cd ..
 
     popd >&/dev/null
@@ -102,4 +127,3 @@ if [[ $# -lt 1 ]]; then
   date=$(date +%d)
 fi
 main "$(echo $date | sed 's/^0*//')"
-
