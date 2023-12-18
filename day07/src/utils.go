@@ -37,29 +37,28 @@ func parseBid(s string) int64 {
 	return num
 }
 
-func computeScore(s string) int64 {
+func computeScore(s string, countJokers bool) int64 {
 	var score int64 = 0
+
+	var mapping = CardMapping
+	if countJokers {
+		mapping = CardMappingJoker
+	}
+
 	for _, c := range s {
-		score = score*int64(len(CardMapping)) + int64(CardMapping[c])
+		score = score*int64(len(mapping)) + int64(mapping[c])
 	}
 	return score
 }
 
-func processLine(line string) Hand {
+func processLine(line string, countJokers bool) Hand {
 	h := Hand{
-		Line: line,
-		Cards: func(s string) [5]CardType {
-			var cards [5]CardType
-			for ix, c := range s {
-				cards[ix] = CardMapping[c]
-			}
-			return cards
-		}(line[0:5]),
-		CardScore: computeScore(line[0:5]),
+		Cards:     parseCards(line[0:5], countJokers),
+		CardScore: computeScore(line[0:5], countJokers),
 		Bid:       parseBid(line[6:]),
 	}
 
-	h.Analyze()
+	h.Analyze(countJokers)
 
 	// fmt.Printf("%+v\n", h)
 
