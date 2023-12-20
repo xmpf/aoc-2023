@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
-	"unicode"
+	"strconv"
 )
 
 func readFile(filename string) []string {
@@ -29,14 +29,14 @@ func readFile(filename string) []string {
 
 func parseBid(s string) int64 {
 	var num int64 = 0
-	for _, c := range s {
-		if unicode.IsDigit(c) {
-			num = num*10 + int64(c-'0')
-		}
+	num, err := strconv.ParseInt(s, 10, 0)
+	if err != nil {
+		panic("parseBid")
 	}
 	return num
 }
 
+// compute score base-14
 func computeScore(s string, countJokers bool) int64 {
 	var score int64 = 0
 
@@ -46,8 +46,9 @@ func computeScore(s string, countJokers bool) int64 {
 	}
 
 	for _, c := range s {
-		score = score*int64(len(mapping)) + int64(mapping[c])
+		score = score*int64(1+len(mapping)) + int64(mapping[c])
 	}
+
 	return score
 }
 

@@ -111,7 +111,8 @@ func (h *Hand) Analyze(countJokers bool) {
 	jokers := 0
 	j := 0
 	for i := 1; i < 5; i += 1 {
-		if countJokers && sorted_cards[i] == Joker { // joker(s) will always be at positions [1, 4]
+		// joker(s) will always be at positions [1, 4]
+		if countJokers && sorted_cards[i] == Joker {
 			jokers += 1
 			continue
 		}
